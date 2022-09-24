@@ -1,2 +1,14 @@
 # ars-shop-npc
-Un semplie script per fare i job con i ped
+[ITA]
+Un semplice script per fare i shop con i ped 
+Tutto configurabile dal config
+
+[ENG]
+A simple script to create shops with npc
+All configurable from config
+
+Dependencies {
+  ox_lib
+}
+
+
