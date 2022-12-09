@@ -80,7 +80,7 @@ ShopMain = function(zona, nome)
             description = locale('prezzo') .. item.price,
             onSelect = function(args)
                 print(item.label)
-                CompraRoba(item.price, item.label)
+                CompraRoba(item.price, item.value, item.label)
             end,
         })
     end
@@ -108,7 +108,7 @@ ShopMain = function(zona, nome)
     end
 end
 
-CompraRoba = function(prezzo, label)
+CompraRoba = function(prezzo, item, label)
     local alert = lib.alertDialog({
         header = locale("conferma") .. label,
         content = locale("item") .. label .. ", " .. locale("prezzo") .. prezzo,
@@ -117,7 +117,7 @@ CompraRoba = function(prezzo, label)
     })
 
     if alert == "confirm" then
-        TriggerServerEvent("ars-shop-npc:compraRoba", prezzo, label)
+        TriggerServerEvent("ars-shop-npc:compraRoba", prezzo, item, label)
     else
         print("niente bro")
     end
