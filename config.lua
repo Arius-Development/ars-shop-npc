@@ -5,6 +5,7 @@ Config = {}
 Config.NPC = {
     ["shop2"] = {
         Pos = vector3(246.68, -664.56, 38.32),
+        Heading = 0.0,
         Nome = "testing",
         Modello = "a_f_m_ktown_02",
         Blip = {
@@ -23,6 +24,7 @@ Config.NPC = {
     },
     ["shop3"] = {
         Pos = vector3(159.44, -793.24, 31.12),
+        Heading = 0.0,
         Nome = "testing",
         Modello = "a_f_m_ktown_02",
         Blip = {
