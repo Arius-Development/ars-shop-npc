@@ -38,16 +38,24 @@ end)
 CreateThread(function()
     local testo = false
     local Sleep
-    while true do 
+    while true do
         Sleep = 500
         if ESX.IsPlayerLoaded() then
-            for k,v in pairs(Config.NPC) do
-                local dist = #(GetEntityCoords(cache.ped)-(type(v.Pos) == type(vector3(0,0,0)) and v.Pos or 0))
-                if dist < 5.0 then
+            for k, v in pairs(Config.NPC) do
+                local dist = #(GetEntityCoords(cache.ped) - (type(v.Pos) == type(vector3(0, 0, 0)) and v.Pos or 0))
+                if dist < 2.0 then
                     Sleep = 0
                     if not testo then
-                        ESX.ShowHelpNotification(locale('parla')..v.Nome)
-                        -- lib.showTextUI("[E] - Per parlare con "..v.Nome)
+                        -- ESX.ShowHelpNotification(locale('parla')..v.Nome)
+                        lib.showTextUI("[E] - Per parlare con " .. v.Nome, {
+                            position = "right-center",
+                            icon = false,
+                            style = {
+                                borderRadius = 5,
+                                backgroundColor = '#000000bf',
+                                color = 'white'
+                            }
+                        })
                         testo = true
                     end
                     if dist < 2.0 then
@@ -55,9 +63,10 @@ CreateThread(function()
                             ShopMain(k, v.Nome)
                         end
                     end
-                else
-                    testo = false
-                    -- lib.hideTextUI()
+                else if testo == true and dist > 2.0 then
+                        testo = false
+                        lib.hideTextUI()
+                    end
                 end
             end
         end
