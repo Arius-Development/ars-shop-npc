@@ -43,29 +43,27 @@ CreateThread(function()
         if ESX.IsPlayerLoaded() then
             for k, v in pairs(Config.NPC) do
                 local dist = #(GetEntityCoords(cache.ped) - (type(v.Pos) == type(vector3(0, 0, 0)) and v.Pos or 0))
-                if dist < 2.0 then
-                    Sleep = 0
-                    if not testo then
-                        -- ESX.ShowHelpNotification(locale('parla')..v.Nome)
-                        lib.showTextUI("[E] - Per parlare con " .. v.Nome, {
-                            position = "right-center",
-                            icon = false,
-                            style = {
-                                borderRadius = 5,
-                                backgroundColor = '#000000bf',
-                                color = 'white'
-                            }
-                        })
-                        testo = true
-                    end
-                    if dist < 2.0 then
-                        if IsControlJustReleased(0, 38) then
-                            ShopMain(k, v.Nome)
-                        end
-                    end
+                if testo == false and dist < 2.0 then
+                    testo = true
+                    -- ESX.ShowHelpNotification(locale('parla')..v.Nome)
+                    lib.showTextUI("[E] - Para hablar con " .. v.Nome, {
+                        position = "right-center",
+                        icon = false,
+                        style = {
+                            borderRadius = 5,
+                            backgroundColor = '#000000bf',
+                            color = 'white'
+                        }
+                    })
                 else if testo == true and dist > 2.0 then
-                        testo = false
                         lib.hideTextUI()
+                        testo = false
+                    end
+                end
+                if dist < 2.0 and testo == true then
+                    Sleep = 0
+                    if IsControlJustReleased(0, 38) then
+                        ShopMain(k, v.Nome)
                     end
                 end
             end
