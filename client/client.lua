@@ -34,7 +34,6 @@ CreateThread(function()
     end
 end)
 
-
 CreateThread(function()
     local testo = false
     local Sleep
@@ -72,18 +71,16 @@ CreateThread(function()
     end
 end)
 
-
-
 ShopMain = function(zona, nome)
     local items = {}
-    for i=1, #Config.NPC[zona].Items, 1 do
+    for i = 1, #Config.NPC[zona].Items, 1 do
         local item = Config.NPC[zona].Items[i]
         table.insert(items, {
             title = item.label,
-            description = locale('prezzo')..item.price,
+            description = locale('prezzo') .. item.price,
             onSelect = function(args)
                 print(item.label)
-                CompraRoba(item.price, item.value)
+                CompraRoba(item.price, item.label)
             end,
         })
     end
@@ -91,18 +88,18 @@ ShopMain = function(zona, nome)
     for k, v in pairs(Config.NPC) do
         lib.registerContext({
             id = "Shop-Main",
-            title = locale("shopdi")..nome,
+            title = locale("shopdi") .. nome,
             options = {
                 {
                     title = locale("titolo-npc"),
                     menu = 'Item-Shop',
-                    description = locale("aprinegozio")..nome,
-                    metadata = {'It also has metadata support'},
+                    description = locale("aprinegozio") .. nome,
+                    metadata = { 'It also has metadata support' },
                 },
             },
             {
                 id = 'Item-Shop',
-                title = locale("titolo-negozio")..nome,
+                title = locale("titolo-negozio") .. nome,
                 menu = 'Shop-Main',
                 options = items
             }
@@ -111,17 +108,16 @@ ShopMain = function(zona, nome)
     end
 end
 
-
-CompraRoba = function(prezzo, item)
+CompraRoba = function(prezzo, label)
     local alert = lib.alertDialog({
-        header = locale("conferma")..item,
-        content = locale("item")..item .. ", " ..locale("prezzo")..prezzo,
+        header = locale("conferma") .. label,
+        content = locale("item") .. label .. ", " .. locale("prezzo") .. prezzo,
         centered = true,
         cancel = true
     })
-    
+
     if alert == "confirm" then
-        TriggerServerEvent("ars-shop-npc:compraRoba", prezzo, item)
+        TriggerServerEvent("ars-shop-npc:compraRoba", prezzo, label)
     else
         print("niente bro")
     end
