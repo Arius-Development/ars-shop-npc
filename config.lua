@@ -1,10 +1,9 @@
 Config = {}
 
-
-
 Config.NPC = {
     ["shop2"] = {
-        Pos = vector3(246.68, -664.56, 38.32),
+        Pos = vector3(246.68, -664.56, 37.32),
+        Heading = 0.0,
         Nome = "testing",
         Modello = "a_f_m_ktown_02",
         Blip = {
@@ -15,14 +14,14 @@ Config.NPC = {
             nome = "downismo",
         },
         Items = {
-            {label = "burger", value = "burger", price = 20},
-            {label = "water", value = "water", price = 12},
-            {label = "armour", value = "armour", price = 1231},
-
+            { label = "Hamburguesa", value = "burger", price = 20 },
+            { label = "Agua", value = "water", price = 12 },
+            { label = "Chaleco Antibalas", value = "armour", price = 1231 },
         }
     },
     ["shop3"] = {
         Pos = vector3(159.44, -793.24, 31.12),
+        Heading = 0.0,
         Nome = "testing",
         Modello = "a_f_m_ktown_02",
         Blip = {
@@ -33,10 +32,9 @@ Config.NPC = {
             nome = "downismo",
         },
         Items = {
-            {label = "burger", value = "burger", price = 20},
-            {label = "water", value = "water", price = 12},
-            {label = "armour", value = "armour", price = 1231},
-
+            { label = "Hamburguesa", value = "burger", price = 20 },
+            { label = "water", value = "water", price = 12 },
+            { label = "armour", value = "armour", price = 1231 },
         }
     },
 }
