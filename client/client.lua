@@ -42,22 +42,20 @@ CreateThread(function()
         if ESX.IsPlayerLoaded() then
             for k, v in pairs(Config.NPC) do
                 local dist = #(GetEntityCoords(cache.ped) - (type(v.Pos) == type(vector3(0, 0, 0)) and v.Pos or 0))
-                if dist < 2.0 then
+                if dist < 2.0 and testo == false then
                     Sleep = 0
-                    if not testo then
-                        -- ESX.ShowHelpNotification(locale('parla')..v.Nome)
-                        lib.showTextUI(locale('parla') .. v.Nome, {
-                            position = "right-center",
-                            icon = false,
-                            style = {
-                                borderRadius = 5,
-                                backgroundColor = '#000000bf',
-                                color = 'white'
-                            }
-                        })
-                        testo = true
-                    end
-                    if dist < 2.0 then
+                    testo = true
+                    -- ESX.ShowHelpNotification(locale('parla')..v.Nome)
+                    lib.showTextUI(locale('parla') .. v.Nome, {
+                        position = "right-center",
+                        icon = false,
+                        style = {
+                            borderRadius = 5,
+                            backgroundColor = '#000000bf',
+                            color = 'white'
+                        }
+                    })
+                    if dist < 2.0 and testo == true then
                         if IsControlJustReleased(0, 38) then
                             ShopMain(k, v.Nome)
                         end
