@@ -1,16 +1,16 @@
-ESX = exports["es_extended"]:getSharedObject() 
+ESX = exports["es_extended"]:getSharedObject()
 
 lib.locale()
 
 CreateThread(function()
-    for k,v in pairs(Config.NPC) do
+    for k, v in pairs(Config.NPC) do
         ModelloHash = GetHashKey(v.Modello)
         RequestModel(ModelloHash)
         while not HasModelLoaded(ModelloHash) do
             Wait(1)
         end
 
-        ped_creato = CreatePed(0, ModelloHash , v.Pos, v.Heading, v.NetworkSync)
+        ped_creato = CreatePed(0, ModelloHash, v.Pos, v.Heading, v.NetworkSync)
         FreezeEntityPosition(ped_creato, true)
         SetEntityInvincible(ped_creato, true)
         SetBlockingOfNonTemporaryEvents(ped_creato, true)
@@ -18,7 +18,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    for k,v in pairs(Config.NPC) do
+    for k, v in pairs(Config.NPC) do
         if v.Blip.display then
             print(k)
             blip = AddBlipForCoord(v.Pos)
@@ -34,30 +34,36 @@ CreateThread(function()
     end
 end)
 
-
 CreateThread(function()
     local testo = false
     local Sleep
-    while true do 
+    while true do
         Sleep = 500
         if ESX.IsPlayerLoaded() then
-            for k,v in pairs(Config.NPC) do
-                local dist = #(GetEntityCoords(cache.ped)-(type(v.Pos) == type(vector3(0,0,0)) and v.Pos or 0))
-                if dist < 5.0 then
+            for k, v in pairs(Config.NPC) do
+                local dist = #(GetEntityCoords(cache.ped) - (type(v.Pos) == type(vector3(0, 0, 0)) and v.Pos or 0))
+                if dist < 2.0 and testo == false then
                     Sleep = 0
-                    if not testo then
-                        ESX.ShowHelpNotification(locale('parla')..v.Nome)
-                        -- lib.showTextUI("[E] - Per parlare con "..v.Nome)
-                        testo = true
-                    end
-                    if dist < 2.0 then
+                    testo = true
+                    -- ESX.ShowHelpNotification(locale('parla')..v.Nome)
+                    lib.showTextUI(locale('parla') .. v.Nome, {
+                        position = "right-center",
+                        icon = false,
+                        style = {
+                            borderRadius = 5,
+                            backgroundColor = '#000000bf',
+                            color = 'white'
+                        }
+                    })
+                    if dist < 2.0 and testo == true then
                         if IsControlJustReleased(0, 38) then
                             ShopMain(k, v.Nome)
                         end
                     end
-                else
-                    testo = false
-                    -- lib.hideTextUI()
+                else if testo == true and dist > 2.0 then
+                        lib.hideTextUI()
+                        testo = false
+                    end
                 end
             end
         end
@@ -65,18 +71,16 @@ CreateThread(function()
     end
 end)
 
-
-
 ShopMain = function(zona, nome)
     local items = {}
-    for i=1, #Config.NPC[zona].Items, 1 do
+    for i = 1, #Config.NPC[zona].Items, 1 do
         local item = Config.NPC[zona].Items[i]
         table.insert(items, {
             title = item.label,
-            description = locale('prezzo')..item.price,
+            description = locale('prezzo') .. item.price,
             onSelect = function(args)
                 print(item.label)
-                CompraRoba(item.price, item.value)
+                CompraRoba(item.price, item.value, item.label)
             end,
         })
     end
@@ -84,18 +88,18 @@ ShopMain = function(zona, nome)
     for k, v in pairs(Config.NPC) do
         lib.registerContext({
             id = "Shop-Main",
-            title = locale("shopdi")..nome,
+            title = locale("shopdi") .. nome,
             options = {
                 {
                     title = locale("titolo-npc"),
                     menu = 'Item-Shop',
-                    description = locale("aprinegozio")..nome,
-                    metadata = {'It also has metadata support'},
+                    description = locale("aprinegozio") .. nome,
+                    metadata = { 'It also has metadata support' },
                 },
             },
             {
                 id = 'Item-Shop',
-                title = locale("titolo-negozio")..nome,
+                title = locale("titolo-negozio") .. nome,
                 menu = 'Shop-Main',
                 options = items
             }
@@ -104,17 +108,16 @@ ShopMain = function(zona, nome)
     end
 end
 
-
-CompraRoba = function(prezzo, item)
+CompraRoba = function(prezzo, item, label)
     local alert = lib.alertDialog({
-        header = locale("conferma")..item,
-        content = locale("item")..item .. ", " ..locale("prezzo")..prezzo,
+        header = locale("conferma") .. label,
+        content = locale("item") .. label .. ", " .. locale("prezzo") .. prezzo,
         centered = true,
         cancel = true
     })
-    
+
     if alert == "confirm" then
-        TriggerServerEvent("ars-shop-npc:compraRoba", prezzo, item)
+        TriggerServerEvent("ars-shop-npc:compraRoba", prezzo, item, label)
     else
         print("niente bro")
     end
