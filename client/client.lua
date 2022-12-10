@@ -44,16 +44,18 @@ CreateThread(function()
                 local dist = #(GetEntityCoords(cache.ped) - (type(v.Pos) == type(vector3(0, 0, 0)) and v.Pos or 0))
                 if testo == false and dist < 2.0 then
                     testo = true
-                    -- ESX.ShowHelpNotification(locale('parla')..v.Nome)
-                    lib.showTextUI("[E] - Para hablar con " .. v.Nome, {
-                        position = "right-center",
-                        icon = false,
-                        style = {
-                            borderRadius = 5,
-                            backgroundColor = '#000000bf',
-                            color = 'white'
-                        }
-                    })
+                    if testo == true then
+                        -- ESX.ShowHelpNotification(locale('parla')..v.Nome)
+                        lib.showTextUI("[E] - Per parlare con " .. v.Nome, {
+                            position = "right-center",
+                            icon = false,
+                            style = {
+                                borderRadius = 5,
+                                backgroundColor = '#000000bf',
+                                color = 'white'
+                            }
+                        })
+                    end
                 else if testo == true and dist > 2.0 then
                         lib.hideTextUI()
                         testo = false
